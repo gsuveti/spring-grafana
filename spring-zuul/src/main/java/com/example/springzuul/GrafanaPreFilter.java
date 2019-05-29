@@ -19,8 +19,8 @@ public class GrafanaPreFilter extends ZuulFilter {
         final RequestContext ctx = RequestContext.getCurrentContext();
         ctx.addZuulRequestHeader("X-WEBAUTH-USER", "admin");
 
-        Optional.ofNullable(ctx.get("ACCESS_TOKEN")).map(Object::toString).ifPresent(token->{
-            ctx.getResponse().addCookie(new Cookie("access_token", token));
+        Optional.ofNullable(ctx.get("ACCESS_TOKEN")).map(Object::toString).ifPresent(token -> {
+            ctx.getResponse().addCookie(new Cookie(GrafanaCookieTokenExtractor.ACCESS_TOKEN_COOKIE_NAME, token));
         });
 
         return null;

@@ -13,7 +13,7 @@ import java.util.Optional;
 @Component
 public class GrafanaCookieTokenExtractor extends BearerTokenExtractor {
 
-    private final String ACCESS_TOKEN_COOKIE_NAME = "access_token";
+    static final String ACCESS_TOKEN_COOKIE_NAME = "access_token";
 
     @Override
     public Authentication extract(HttpServletRequest request) {
@@ -23,13 +23,16 @@ public class GrafanaCookieTokenExtractor extends BearerTokenExtractor {
         }
 
 
-        Cookie[] cookies = Optional.ofNullable(request.getCookies()).orElse(new Cookie[0]);
+        if (request.getHeader("Authorization") == null) {
+            Cookie[] cookies = Optional.ofNullable(request.getCookies()).orElse(new Cookie[0]);
+            return Arrays.stream(cookies)
+                    .filter(cookie -> ACCESS_TOKEN_COOKIE_NAME.equals(cookie.getName()))
+                    .findFirst()
+                    .map(Cookie::getValue)
+                    .map(token -> new PreAuthenticatedAuthenticationToken(token, ""))
+                    .orElse(null);
+        }
 
-        return Arrays.stream(cookies)
-                .filter(cookie -> ACCESS_TOKEN_COOKIE_NAME.equals(cookie.getName()))
-                .findFirst()
-                .map(Cookie::getValue)
-                .map(token -> new PreAuthenticatedAuthenticationToken(token, ""))
-                .orElse(null);
+        return null;
     }
 }
