@@ -1,12 +1,13 @@
 zuul:
-  sensitiveHeaders: authorization
   routes:
     grafana:
+      sensitiveHeaders: Authorization
       path: /grafana/**
-      url: http://localhost:3000
+      url: http://${GRAFANA_HOST:localhost}:3000
     oauth:
+      sensitiveHeaders: Cookie, Set-Cookie
       path: /authorization/**
-      url: http://localhost:8081
+      url: http://${AUTHORIZATION_SERVER_HOST:localhost}:8081
     authentication:
       path: /authentication/**
       url: http://localhost:8082

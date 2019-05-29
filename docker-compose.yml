@@ -1,0 +1,39 @@
+version: '3'
+services:
+  gateway:
+    image: "spring-zuul:latest"
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/code
+    environment:
+      - GRAFANA_HOST=grafana
+      - AUTHORIZATION_SERVER_HOST=authorization
+  authorization:
+    image: "spring-authorization:latest"
+    ports:
+      - "8081:8081"
+  postgres:
+    restart: always
+    image: postgres:latest
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+  grafana:
+    image: grafana/grafana:master
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SERVER_DOMAIN=gateway:8080
+      - GF_SERVER_ROOT_URL=%(protocol)s://%(domain)s/grafana
+      - GF_AUTH_PROXY_ENABLED=true
+      - GF_AUTH_PROXY_HEADER_NAME=X-WEBAUTH-USER
+      - GF_AUTH_PROXY_HEADER_PROPERTY=username
+      - GF_AUTH_PROXY_AUTO_SIGN_UP=true
+      - GF_AUTH_PROXY_WHITELIST=
+      - GF_DATABASE_HOST=postgres:5432
+      - GF_DATABASE_TYPE=postgres
+      - GF_DATABASE_USER=postgres
+      - GF_DATABASE_PASSWORD=postgres
+      - GF_INSTALL_PLUGINS=grafana-clock-panel,grafana-simple-json-datasource,grafana-piechart-panel,grafana-worldmap-panel,natel-plotly-panel
