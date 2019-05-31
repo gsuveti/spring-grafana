@@ -14,6 +14,9 @@ zuul:
     blog:
       path: /blog/**
       url: http://${BLOG_HOST:localhost}:8083
+    shop:
+      path: /shop/**
+      url: http://${SHOP_HOST:localhost}:8084
 
 security:
   oauth2:

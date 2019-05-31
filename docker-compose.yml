@@ -9,15 +9,27 @@ services:
     environment:
       - GRAFANA_HOST=grafana
       - AUTHORIZATION_SERVER_HOST=authorization
-      - AUTHORIZATION_SERVER_HOST=blog
+      - SHOP_HOST=shop
+      - BLOG_HOST=blog
+
   authorization:
     image: "spring-authorization:latest"
     ports:
       - "8081:8081"
+
   blog:
     image: "resource-blog:latest"
     ports:
       - "8083:8083"
+
+  shop:
+    image: "resource-shop:latest"
+    ports:
+      - "8084:8084"
+    environment:
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+
   postgres:
     restart: always
     image: postgres:latest
@@ -25,6 +37,8 @@ services:
       - ./postgres-data:/var/lib/postgresql/data
     ports:
       - "5433:5432"
+
+
   grafana:
     image: grafana/grafana:master
     ports:
