@@ -9,10 +9,15 @@ services:
     environment:
       - GRAFANA_HOST=grafana
       - AUTHORIZATION_SERVER_HOST=authorization
+      - AUTHORIZATION_SERVER_HOST=blog
   authorization:
     image: "spring-authorization:latest"
     ports:
       - "8081:8081"
+  blog:
+    image: "resource-blog:latest"
+    ports:
+      - "8083:8083"
   postgres:
     restart: always
     image: postgres:latest

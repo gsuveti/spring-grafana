@@ -25,6 +25,7 @@ public class SecurityConfiguration extends ResourceServerConfigurerAdapter {
                 permitAll().
                 antMatchers("/authorization/status").
                 authenticated().
+                antMatchers("/blog/**").permitAll().
                 antMatchers("/grafana/public/**").permitAll().
 //                antMatchers("/grafana/**").authenticated();
                 antMatchers("/grafana/**").permitAll();

@@ -1,19 +1,5 @@
-zuul:
-  routes:
-    grafana:
-      sensitiveHeaders: Authorization
-      path: /grafana/**
-      url: http://${GRAFANA_HOST:localhost}:3000
-    authorization:
-      sensitiveHeaders: Cookie, Set-Cookie
-      path: /authorization/**
-      url: http://${AUTHORIZATION_SERVER_HOST:localhost}:8081
-    authentication:
-      path: /authentication/**
-      url: http://localhost:8082
-    blog:
-      path: /blog/**
-      url: http://${BLOG_HOST:localhost}:8083
+server:
+  port: 8083
 
 security:
   oauth2:
@@ -29,3 +15,20 @@ security:
           lAWJKl2kcWU1HwJqw+dZRSZ1X4kEXNMyzPdPBbGmU6MHdhpywI7SKZT7mX4BDnUK
           eQIDAQAB
           -----END PUBLIC KEY-----
+
+spring:
+  datasource:
+    platform: h2
+    url: jdbc:h2:mem:testdb
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+
+  data:
+    rest:
+      basePath: api
+
+  jpa:
+    hibernate:
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyComponentPathImpl
