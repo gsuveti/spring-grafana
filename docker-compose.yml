@@ -1,7 +1,7 @@
 version: '3'
 services:
   gateway:
-    image: "spring-zuul:latest"
+    image: "gsuveti/spring-zuul:latest"
     ports:
       - "8080:8080"
     volumes:
@@ -13,17 +13,17 @@ services:
       - BLOG_HOST=blog
 
   authorization:
-    image: "spring-authorization:latest"
+    image: "gsuveti/spring-authorization:latest"
     ports:
       - "8081:8081"
 
   blog:
-    image: "resource-blog:latest"
+    image: "gsuveti/resource-blog:latest"
     ports:
       - "8083:8083"
 
   shop:
-    image: "resource-shop:latest"
+    image: "gsuveti/resource-shop:latest"
     ports:
       - "8084:8084"
     environment:
