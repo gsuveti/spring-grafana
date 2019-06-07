@@ -1,0 +1,3 @@
+CREATE USER grafana;
+CREATE DATABASE grafana;
+GRANT ALL PRIVILEGES ON DATABASE grafana TO grafana;

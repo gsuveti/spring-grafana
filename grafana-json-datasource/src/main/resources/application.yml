@@ -1,14 +1,6 @@
-zuul:
-  routes:
-    grafana:
-      sensitiveHeaders: Authorization
-      path: /grafana/**
-      url: http://${GRAFANA_HOST:localhost}:3000
-    authorization:
-      sensitiveHeaders: Cookie, Set-Cookie
-      path: /authorization/**
-      url: http://${AUTHORIZATION_SERVER_HOST:localhost}:8081
-      
+server:
+  port: 3333
+
 security:
   oauth2:
     resource:
