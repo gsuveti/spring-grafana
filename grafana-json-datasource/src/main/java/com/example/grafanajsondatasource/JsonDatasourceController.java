@@ -5,8 +5,6 @@ import com.example.grafanajsondatasource.domain.GrafanaTarget;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
-import org.springframework.core.io.support.ResourcePatternUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -15,7 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
@@ -55,10 +54,7 @@ public class JsonDatasourceController {
                 })
                 .map(file -> {
                     try {
-                        Map<String, Object> metric = new HashMap<>();
-                        metric.put("target", Objects.requireNonNull(file).getName());
-                        metric.put("datapoints", jsonMapper.readValue(file, Object.class));
-                        return metric;
+                        return jsonMapper.readValue(file, Object.class);
                     } catch (IOException e) {
                         e.printStackTrace();
                         return null;
