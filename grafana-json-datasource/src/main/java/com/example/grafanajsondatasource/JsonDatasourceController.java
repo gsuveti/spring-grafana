@@ -1,7 +1,6 @@
 package com.example.grafanajsondatasource;
 
-import com.example.grafanajsondatasource.domain.GrafanaQuery;
-import com.example.grafanajsondatasource.domain.GrafanaTarget;
+import com.example.grafanajsondatasource.domain.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -64,5 +64,29 @@ public class JsonDatasourceController {
 
 
         return ResponseEntity.ok(metrics);
+    }
+
+    @PostMapping("/annotations")
+    public ResponseEntity<List<Object>> annotations(@RequestBody GrafanaQuery query, Authentication authentication) throws IOException {
+//        TODO implement
+        return ResponseEntity.ok(new ArrayList<>());
+    }
+
+    @PostMapping("/tag-keys")
+    public ResponseEntity<List<GrafanaTagKey>> tagKeys(Authentication authentication) throws IOException {
+        List<GrafanaTagKey> keys = new ArrayList<>();
+        keys.add(new GrafanaTagKey(GrafanaTagType.STRING, "key1"));
+        keys.add(new GrafanaTagKey(GrafanaTagType.STRING, "key2"));
+
+        return ResponseEntity.ok(keys);
+    }
+
+    @PostMapping("/tag-values")
+    public ResponseEntity<List<GrafanaTagValue>> tagValues(@RequestBody GrafanaRequestedTagKey key, Authentication authentication) throws IOException {
+        List<GrafanaTagValue> keys = new ArrayList<>();
+        keys.add(new GrafanaTagValue("value 1 "+ key.getKey()));
+        keys.add(new GrafanaTagValue("value 2 "+ key.getKey()));
+
+        return ResponseEntity.ok(keys);
     }
 }
