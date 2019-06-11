@@ -1,6 +1,7 @@
 package com.example.springzuul;
 
 
+import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
@@ -13,7 +14,7 @@ public class SecurityConfiguration extends ResourceServerConfigurerAdapter {
 
     @Override
     public void configure(final ResourceServerSecurityConfigurer resources) {
-        resources.tokenExtractor(new GrafanaCookieTokenExtractor());
+        resources.tokenExtractor(new CookieTokenExtractor());
     }
 
 
@@ -25,11 +26,8 @@ public class SecurityConfiguration extends ResourceServerConfigurerAdapter {
                 permitAll().
                 antMatchers("/authorization/status").
                 authenticated().
-                antMatchers("/blog/**").permitAll().
-                antMatchers("/shop/**").permitAll().
                 antMatchers("/grafana/public/**").permitAll().
-//                antMatchers("/grafana/**").authenticated();
-                antMatchers("/grafana/**").permitAll();
+                antMatchers("/grafana/**").authenticated();
     }
 
 }

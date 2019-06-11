@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.Optional;
 
 @Component
-public class GrafanaCookieTokenExtractor extends BearerTokenExtractor {
+public class CookieTokenExtractor extends BearerTokenExtractor {
 
     static final String ACCESS_TOKEN_COOKIE_NAME = "access_token";
 
